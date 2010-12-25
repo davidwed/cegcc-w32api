@@ -1262,6 +1262,7 @@ DECLARE_INTERFACE_(IShellView2,IShellView)
 };
 #undef INTERFACE
 
+#ifndef _WIN32_WCE
 #define INTERFACE IShellExecuteHookA
 DECLARE_INTERFACE_(IShellExecuteHookA,IUnknown)
 {
@@ -1271,6 +1272,7 @@ DECLARE_INTERFACE_(IShellExecuteHookA,IUnknown)
 	STDMETHOD(Execute)(THIS_ LPSHELLEXECUTEINFOA) PURE;
 };
 #undef INTERFACE
+#endif
 
 #define INTERFACE IShellExecuteHookW
 DECLARE_INTERFACE_(IShellExecuteHookW,IUnknown)
@@ -1425,14 +1427,20 @@ HRESULT WINAPI SHGetDataFromIDListW(LPSHELLFOLDER,LPCITEMIDLIST,int,PVOID,int);
 HRESULT WINAPI SHGetDesktopFolder(LPSHELLFOLDER*);
 HRESULT WINAPI SHGetInstanceExplorer(IUnknown **);
 HRESULT WINAPI SHGetMalloc(LPMALLOC*);
+#ifdef _WIN32_WCE
+BOOL WINAPI SHGetPathFromIDList(LPCITEMIDLIST,LPWSTR);
+#else
 BOOL WINAPI SHGetPathFromIDListA(LPCITEMIDLIST,LPSTR);
 BOOL WINAPI SHGetPathFromIDListW(LPCITEMIDLIST,LPWSTR);
+#endif
 HRESULT WINAPI SHGetSpecialFolderLocation(HWND,int,LPITEMIDLIST*);
 HRESULT WINAPI SHLoadInProc(REFCLSID);
+#ifndef _WIN32_WCE
 #if (_WIN32_IE >= 0x0400)
 BOOL WINAPI SHGetSpecialFolderPathA(HWND,LPSTR,int,BOOL);
 BOOL WINAPI SHGetSpecialFolderPathW(HWND,LPWSTR,int,BOOL);
 #endif 
+#endif
 /* SHGetFolderPath in shfolder.dll on W9x, NT4, also in shell32.dll on W2K */
 HRESULT WINAPI SHGetFolderPathA(HWND,int,HANDLE,DWORD,LPSTR);
 HRESULT WINAPI SHGetFolderPathW(HWND,int,HANDLE,DWORD,LPWSTR);
@@ -1478,7 +1486,9 @@ typedef IShellLinkW IShellLink;
 typedef BROWSEINFOW BROWSEINFO,*PBROWSEINFO,*LPBROWSEINFO;
 #define SHBrowseForFolder SHBrowseForFolderW
 #define SHGetDataFromIDList SHGetDataFromIDListW
+#ifndef _WIN32_WCE
 #define SHGetPathFromIDList SHGetPathFromIDListW
+#endif
 #if (_WIN32_IE >= 0x0400)
 #define SHGetSpecialFolderPath SHGetSpecialFolderPathW
 #endif
