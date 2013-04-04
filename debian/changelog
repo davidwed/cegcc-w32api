@@ -1,0 +1,5 @@
+cegcc-w32api (3.15-1) unstable; urgency=low
+
+  * initial Debian package
+
+ -- Max Kellermann <max@duempel.org>  Thu, 04 Apr 2013 13:28:41 +0200
