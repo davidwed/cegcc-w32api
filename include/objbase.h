@@ -9,7 +9,9 @@
 #pragma GCC system_header
 #endif
 
+#ifndef UNDER_CE
 #include <stdlib.h>
+#endif
 #pragma pack(push,8)
 #include <basetyps.h>
 
